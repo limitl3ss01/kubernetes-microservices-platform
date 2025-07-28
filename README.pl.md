@@ -1,28 +1,28 @@
 # Platforma Microservices Kubernetes
 
-## 🚀 Projekt Portfolio DevOps Enterprise
+## 🚀 Architektura Microservices na Poziomie Enterprise
 
-Kompleksowa platforma microservices demonstrująca zaawansowaną orkiestrację Kubernetes, Service Mesh Istio, deployment GitOps oraz nowoczesne praktyki observability. Ten projekt pokazuje produkcyjne umiejętności DevOps i architekturę cloud-native.
+Kompleksowa platforma microservices demonstrująca zaawansowaną orkiestrację Kubernetes, nowoczesne praktyki DevOps oraz architekturę cloud-native. Ten projekt pokazuje produkcyjną infrastrukturę z wielojęzycznymi microservices, automatycznym skalowaniem i kompleksowym monitoringiem.
 
 ## 📋 Przegląd Architektury
 
-### Microservices
-- **User Service** - Zarządzanie użytkownikami (Node.js/Express)
-- **Order Service** - Przetwarzanie zamówień (Python/FastAPI)  
-- **Notification Service** - Powiadomienia (Go/Gin)
-- **API Gateway** - Kong dla routingu i bezpieczeństwa
+### Stack Microservices
+- **User Service** - Zarządzanie użytkownikami i uwierzytelnianie (Node.js/Express)
+- **Order Service** - Przetwarzanie zamówień i logika biznesowa (Python/FastAPI)  
+- **Notification Service** - Powiadomienia w czasie rzeczywistym (Go/Gin)
+- **API Gateway** - Kong dla routingu, bezpieczeństwa i rate limiting
 
-### Stack Infrastruktury
-- **Kubernetes** - Orkiestracja kontenerów
-- **Istio** - Service mesh dla zarządzania ruchem
+### Komponenty Infrastruktury
+- **Kubernetes** - Orkiestracja i zarządzanie kontenerami
+- **Istio** - Service mesh dla zaawansowanego zarządzania ruchem
 - **ArgoCD** - GitOps continuous delivery
-- **Prometheus + Grafana** - Monitoring i wizualizacja
+- **Prometheus + Grafana** - Monitoring i observability
 - **Jaeger** - Distributed tracing
 - **Kiali** - Observability service mesh
 
 ## 🏗️ Kluczowe Funkcje
 
-### Podstawowe Możliwości
+### Możliwości Produkcyjne
 - ✅ **Auto-scaling** (HPA/VPA) z inteligentnym zarządzaniem zasobami
 - ✅ **Load balancing** z Istio service mesh
 - ✅ **Service discovery** i health checks
@@ -55,35 +55,43 @@ Kompleksowa platforma microservices demonstrująca zaawansowaną orkiestrację K
 ### Wymagania
 ```bash
 # Klaster Kubernetes
-minikube start --cpus=4 --memory=8192 --disk-size=20g
+minikube start --cpus=4 --memory=7000 --disk-size=20g
 
-# Narzędzia
-kubectl, helm, docker, istioctl, argocd
+# Wymagane narzędzia
+kubectl, docker, make
 ```
 
-### Setup Jedną Komendą
+### Deployment Jedną Komendą
 ```bash
 # Sklonuj repozytorium
-git clone https://github.com/your-username/kubernetes-microservices-platform.git
+git clone https://github.com/limitl3ss01/kubernetes-microservices-platform.git
 cd kubernetes-microservices-platform
 
-# Szybki start
-make quick-start
+# Wdróż platformę
+make deploy-local
 ```
 
-### Ręczny Setup
+### Ręczny Deployment
 ```bash
-# 1. Setup Istio
-kubectl apply -f istio/setup/
+# 1. Uruchom minikube
+minikube start --cpus=4 --memory=7000 --disk-size=20g
 
-# 2. Deploy ArgoCD
-kubectl apply -f argocd/
+# 2. Włącz dodatki
+minikube addons enable ingress
+minikube addons enable metrics-server
 
-# 3. Deploy monitoring stack
-kubectl apply -f monitoring/
+# 3. Utwórz namespace'y
+kubectl create namespace microservices-platform
+kubectl create namespace monitoring
 
-# 4. Deploy microservices
-kubectl apply -f k8s/
+# 4. Zbuduj i wdróż usługi
+make build
+make deploy
+
+# 5. Skonfiguruj port forwarding
+kubectl port-forward -n microservices-platform svc/user-service 3001:3001 &
+kubectl port-forward -n microservices-platform svc/order-service 3002:3002 &
+kubectl port-forward -n microservices-platform svc/notification-service 3003:3003 &
 ```
 
 ## 📈 Monitoring & Observability
@@ -192,21 +200,4 @@ MIT License - see [LICENSE](LICENSE) file for details
 
 ---
 
-**Built with ❤️ for DevOps Portfolio**
-
----
-
-## 🚀 Co To Demonstruje
-
-Ten projekt pokazuje **enterprise-level DevOps skills** włączając:
-
-- **Zaawansowaną administrację Kubernetes** i best practices
-- **Implementację Service Mesh** z Istio
-- **GitOps workflow** z ArgoCD
-- **Monitoring & Observability** z Prometheus, Grafana, Jaeger
-- **Security implementation** z RBAC, network policies
-- **Auto-scaling** i load balancing strategies
-- **Multi-language** microservices development
-- **Production-ready** architecture i deployment patterns
-
-Idealne dla pozycji **Senior DevOps Engineer**, **Platform Engineer**, **Site Reliability Engineer (SRE)**, i **Cloud Architect**. 
+**Autor: zajaczek01** 

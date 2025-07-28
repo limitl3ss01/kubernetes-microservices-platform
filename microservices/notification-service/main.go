@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -104,7 +103,7 @@ func main() {
 		c.JSON(http.StatusOK, gin.H{
 			"status":    "healthy",
 			"service":   "notification-service",
-			"timestamp": time.Now().ISO8601(),
+			"timestamp": time.Now().Format(time.RFC3339),
 			"version":   "1.0.0",
 		})
 	})
