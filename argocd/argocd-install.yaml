@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: argocd
+  labels:
+    name: argocd
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ArgoCD
+metadata:
+  name: argocd
+  namespace: argocd
+spec:
+  server:
+    extraArgs:
+      - --insecure
+    route:
+      enabled: true
+  repo:
+    extraArgs:
+      - --insecure
+  controller:
+    extraArgs:
+      - --insecure
+  applicationSet:
+    enabled: true
+  ha:
+    enabled: true
+    resources:
+      requests:
+        memory: 256Mi
+        cpu: 250m
+      limits:
+        memory: 512Mi
+        cpu: 500m
+  dex:
+    enabled: false
+  rbac:
+    defaultPolicy: role:readonly
+    pspEnabled: false
+  redis:
+    enabled: true
+    resources:
+      requests:
+        memory: 64Mi
+        cpu: 100m
+      limits:
+        memory: 128Mi
+        cpu: 200m
+  grafana:
+    enabled: true
+    route:
+      enabled: true
+    resources:
+      requests:
+        memory: 64Mi
+        cpu: 100m
+      limits:
+        memory: 128Mi
+        cpu: 200m
+  prometheus:
+    enabled: true
+    route:
+      enabled: true
+    resources:
+      requests:
+        memory: 64Mi
+        cpu: 100m
+      limits:
+        memory: 128Mi
+        cpu: 200m 
